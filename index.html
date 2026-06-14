@@ -465,29 +465,27 @@ footer {
       <p class="small-note">Please submit your menu selections with your RSVP so we can prepare for the evening.</p>
       <div class="error-msg" id="error-msg"></div>
       <button type="submit">Reserve my spot &amp; pay</button>
+
+      <div id="success-screen" style="display:none; margin-top:24px;">
+        <div style="border:1px solid var(--border); border-radius:4px; padding:2rem; text-align:center;">
+          <div class="success-icon" style="margin: 0 auto 1.5rem;">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h2 style="margin-top:0; font-family:'Cormorant Garamond',serif;">Almost there!</h2>
+          <p style="color:var(--muted); margin-bottom:8px;">Your menu selections have been received. To confirm your spot, please complete payment via Venmo.</p>
+          <div style="background:var(--gold-pale); border:1px solid var(--gold); border-radius:4px; padding:20px; margin:24px 0;">
+            <div style="font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:6px;">Amount due</div>
+            <div id="payment-total" style="font-family:'Cormorant Garamond',serif; font-size:2.4rem; font-weight:500; color:var(--near-black);"></div>
+            <div id="payment-breakdown" style="font-size:0.85rem; color:var(--muted); margin-top:4px;"></div>
+          </div>
+          <a href="https://venmo.com/u/Talia-Abrahamson" target="_blank" style="display:block; background:var(--gold); color:var(--near-black); text-decoration:none; border-radius:4px; padding:15px 28px; font-family:'Montserrat',sans-serif; font-size:0.8rem; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:16px;">Pay on Venmo</a>
+          <p style="font-size:0.8rem; color:var(--muted); margin:0;">Please include your name in the Venmo note so we can match your payment to your RSVP. Your spot is not confirmed until payment is received.</p>
+        </div>
+      </div>
+
     </div>
 
   </form>
-
-  <div class="success-screen" id="success-screen">
-    <div class="card" style="max-width:520px; margin: 0 auto; text-align:center; padding: 3rem 2rem;">
-      <div class="success-icon" style="margin: 0 auto 1.5rem;">
-        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <h2 style="margin-top:0;">Almost there!</h2>
-      <p style="color:var(--muted); margin-bottom: 8px;">Your menu selections have been received. To confirm your spot, please complete payment via Venmo.</p>
-
-      <div style="background:var(--gold-pale); border:1px solid var(--gold); border-radius:4px; padding: 20px; margin: 24px 0;">
-        <div style="font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:6px;">Amount due</div>
-        <div id="payment-total" style="font-family:'Cormorant Garamond',serif; font-size:2.4rem; font-weight:500; color:var(--near-black);"></div>
-        <div id="payment-breakdown" style="font-size:0.85rem; color:var(--muted); margin-top:4px;"></div>
-      </div>
-
-      <a id="venmo-link" href="https://venmo.com/u/Talia-Abrahamson" target="_blank" style="display:block; background:var(--gold); color:var(--near-black); text-decoration:none; border-radius:4px; padding:15px 28px; font-family:'Montserrat',sans-serif; font-size:0.8rem; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:16px;">Pay on Venmo</a>
-
-      <p style="font-size:0.8rem; color:var(--muted); margin:0;">Please include your name in the Venmo note so we can match your payment to your RSVP. Your spot is not confirmed until payment is received.</p>
-    </div>
-  </div>
 
 </div>
 
@@ -675,7 +673,7 @@ document.getElementById('rsvp-form').addEventListener('submit', function(e) {
   var comments = document.getElementById('notes').value.trim();
 
   // Submit to Google Sheet
-  fetch('https://script.google.com/macros/s/AKfycbzLrlbioimSIPbQeWw0higeqLQSKH-LD5fyZs4nIIVH8bWK7KgeK1XTQLsVYVMFKhJU/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbwQFTYChzb9i4kMUJUwQRsggvvzt7lwdUAzX9jVCIRqFiNr3ldb0Wpn-z7atDTtw60a/exec', {
     method: 'POST',
     body: JSON.stringify({ guests: guests, comments: comments }),
     headers: { 'Content-Type': 'application/json' }
@@ -685,10 +683,9 @@ document.getElementById('rsvp-form').addEventListener('submit', function(e) {
 
   document.getElementById('payment-total').textContent = '$' + total + '.00';
   document.getElementById('payment-breakdown').textContent = numGuests + ' guest' + (numGuests > 1 ? 's' : '') + ' × $60.00';
-
-  document.getElementById('rsvp-form').style.display = 'none';
-  document.getElementById('success-screen').style.display = 'block';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  var successBox = document.getElementById('success-screen');
+  successBox.style.display = 'block';
+  successBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
 addGuest();
