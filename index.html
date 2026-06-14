@@ -674,7 +674,7 @@ document.getElementById('rsvp-form').addEventListener('submit', function(e) {
 
   // Submit to Google Sheet using Image trick to bypass CORS
   var params = encodeURIComponent(JSON.stringify({ guests: guests, comments: comments }));
-  new Image().src = 'https://script.google.com/macros/s/AKfycbxstyzdEoK2lwk_bTOcG5JQ_g1Z0p161zhOphuiayQ0NS-ZAb-OK07wewgzjJjmCeZg/exec?data=' + params;
+  new Image().src = 'https://script.google.com/macros/s/AKfycbyw6ocqaAaMbPcLYhFULZ52Gh72lP8ZrUfxKuvSP5N6e3GWs_Lyx7XMRtfHW7vGSr3w/exec?data=' + params;
 
   document.getElementById('payment-total').textContent = '$' + total + '.00';
   document.getElementById('payment-breakdown').textContent = numGuests + ' guest' + (numGuests > 1 ? 's' : '') + ' × $60.00';
