@@ -672,15 +672,9 @@ document.getElementById('rsvp-form').addEventListener('submit', function(e) {
 
   var comments = document.getElementById('notes').value.trim();
 
-  // Submit to Google Sheet
-  fetch('https://script.google.com/macros/s/AKfycbx8qG3xg_Zv475_UzV7xqyO-I073dWDErkFkA78WlWCF3eSCKxyxw9H1Mo3hinJ4Do/exec', {
-    method: 'POST',
-    mode: 'no-cors',
-    body: JSON.stringify({ guests: guests, comments: comments }),
-    headers: { 'Content-Type': 'text/plain' }
-  }).catch(function(err) {
-    console.error('Sheet submission error:', err);
-  });
+  // Submit to Google Sheet using Image trick to bypass CORS
+  var params = encodeURIComponent(JSON.stringify({ guests: guests, comments: comments }));
+  new Image().src = 'https://script.google.com/macros/s/AKfycbxstyzdEoK2lwk_bTOcG5JQ_g1Z0p161zhOphuiayQ0NS-ZAb-OK07wewgzjJjmCeZg/exec?data=' + params;
 
   document.getElementById('payment-total').textContent = '$' + total + '.00';
   document.getElementById('payment-breakdown').textContent = numGuests + ' guest' + (numGuests > 1 ? 's' : '') + ' × $60.00';
