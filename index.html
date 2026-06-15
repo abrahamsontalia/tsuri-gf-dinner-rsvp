@@ -449,7 +449,7 @@ footer {
 
     <div id="guests-container"></div>
 
-    <div style="text-align:center; margin-bottom: 28px;">
+    <div id="add-guest-btn-wrapper" style="text-align:center; margin-bottom: 28px;">
       <button type="button" id="add-guest-btn" onclick="addGuest()" style="background:white; color:var(--gold); border:1px solid var(--gold); border-radius:4px; padding:12px 28px; font-family:'Montserrat',sans-serif; font-size:0.8rem; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; cursor:pointer;">+ Add another guest</button>
     </div>
 
@@ -487,6 +487,39 @@ footer {
 
   </form>
 
+  <!-- WAITLIST FORM (hidden until spots are full) -->
+  <div id="waitlist-section" style="display:none;">
+    <div class="card" style="text-align:center; border-color:var(--gold);">
+      <div style="font-size:2rem; margin-bottom:12px;">✦</div>
+      <h2 style="margin-bottom:8px;">This event is fully booked</h2>
+      <p style="color:var(--muted);">All 30 spots have been filled. Enter your details below to join the waitlist — we'll reach out if a spot opens up.</p>
+    </div>
+    <div class="card">
+      <h2>Join the waitlist</h2>
+      <div class="field-row">
+        <div>
+          <label class="field-label" for="wl-fname">First name</label>
+          <input type="text" id="wl-fname" placeholder="First name">
+        </div>
+        <div>
+          <label class="field-label" for="wl-lname">Last name</label>
+          <input type="text" id="wl-lname" placeholder="Last name">
+        </div>
+      </div>
+      <label class="field-label" for="wl-email">Email address</label>
+      <input type="email" id="wl-email" placeholder="you@example.com">
+      <label class="field-label" for="wl-notes">Any notes</label>
+      <textarea id="wl-notes" rows="3" placeholder="Number of people, dietary needs, anything else..."></textarea>
+      <div class="error-msg" id="wl-error-msg"></div>
+      <button type="button" onclick="submitWaitlist()" style="width:100%; padding:15px; background:var(--gold); color:var(--near-black); border:none; border-radius:4px; font-size:0.8rem; font-weight:500; cursor:pointer; font-family:'Montserrat',sans-serif; letter-spacing:0.15em; text-transform:uppercase;">Join the waitlist</button>
+      <div id="wl-success" style="display:none; margin-top:20px; text-align:center; padding:1.5rem; background:var(--gold-pale); border:1px solid var(--gold); border-radius:4px;">
+        <strong>You're on the waitlist!</strong><br>
+        <span style="font-size:0.9rem; color:var(--muted);">We'll contact you at <span id="wl-confirmed-email"></span> if a spot opens up.</span>
+      </div>
+    </div>
+  </div>
+
+
 </div>
 
 <footer>
@@ -494,6 +527,68 @@ footer {
 </footer>
 
 <script>
+
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx-DNL4r2Vz2DyLb6UrCm1Rdhs_C5LAFhuJSL0l1HwsnYQVqjxyE8HUX3p5v5E4PfjZ/exec';
+var MAX_SPOTS = 30;
+
+function checkCapacity() {
+  new Image().src = SCRIPT_URL + '?action=count&t=' + Date.now();
+  // Use a small fetch to get the count
+  var img = new Image();
+  img.src = SCRIPT_URL + '?action=count&t=' + Date.now();
+  
+  fetch(SCRIPT_URL + '?action=count', { mode: 'no-cors' }).catch(function(){});
+  
+  // Use XMLHttpRequest to get count (no-cors workaround: check via script tag)
+  var s = document.createElement('script');
+  s.src = SCRIPT_URL + '?action=count&callback=handleCount&t=' + Date.now();
+  document.body.appendChild(s);
+}
+
+function handleCount(data) {
+  if (data && data.count >= MAX_SPOTS) {
+    document.getElementById('rsvp-form').style.display = 'none';
+    document.getElementById('add-guest-btn-wrapper').style.display = 'none';
+    document.getElementById('waitlist-section').style.display = 'block';
+  }
+}
+
+function submitWaitlist() {
+  var fname = document.getElementById('wl-fname').value.trim();
+  var email = document.getElementById('wl-email').value.trim();
+  var lname = document.getElementById('wl-lname').value.trim();
+  var notes = document.getElementById('wl-notes').value.trim();
+  var errEl = document.getElementById('wl-error-msg');
+
+  if (!fname || !email) {
+    errEl.textContent = 'Please enter your name and email address.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    errEl.textContent = 'Please enter a valid email address.';
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  var params = encodeURIComponent(JSON.stringify({
+    action: 'waitlist',
+    name: fname + ' ' + lname,
+    email: email,
+    notes: notes
+  }));
+  new Image().src = SCRIPT_URL + '?data=' + params;
+
+  document.getElementById('wl-confirmed-email').textContent = email;
+  document.getElementById('wl-success').style.display = 'block';
+  document.getElementById('wl-fname').disabled = true;
+  document.getElementById('wl-lname').disabled = true;
+  document.getElementById('wl-email').disabled = true;
+  document.getElementById('wl-notes').disabled = true;
+  document.querySelector('#waitlist-section button').style.display = 'none';
+}
+
 var guestCount = 0;
 
 var menuOptions = {
@@ -674,7 +769,7 @@ document.getElementById('rsvp-form').addEventListener('submit', function(e) {
 
   // Submit to Google Sheet using Image trick to bypass CORS
   var params = encodeURIComponent(JSON.stringify({ guests: guests, comments: comments }));
-  new Image().src = 'https://script.google.com/macros/s/AKfycbyw6ocqaAaMbPcLYhFULZ52Gh72lP8ZrUfxKuvSP5N6e3GWs_Lyx7XMRtfHW7vGSr3w/exec?data=' + params;
+  new Image().src = SCRIPT_URL + '?data=' + params;
 
   document.getElementById('payment-total').textContent = '$' + total + '.00';
   document.getElementById('payment-breakdown').textContent = numGuests + ' guest' + (numGuests > 1 ? 's' : '') + ' × $60.00';
@@ -684,6 +779,7 @@ document.getElementById('rsvp-form').addEventListener('submit', function(e) {
 });
 
 addGuest();
+checkCapacity();
 </script>
 </body>
 </html>
