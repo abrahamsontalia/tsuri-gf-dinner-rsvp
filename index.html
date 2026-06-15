@@ -471,11 +471,11 @@ footer {
           <div class="success-icon" style="margin: 0 auto 1.5rem;">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
-          <h2 style="margin-top:0; font-family:'Cormorant Garamond',serif;">Almost there!</h2>
+          <h2 style="margin-top:0; font-family:'Cormorant Garamond', serif;">Almost there!</h2>
           <p style="color:var(--muted); margin-bottom:8px;">Your menu selections have been received. To confirm your spot, please complete payment via Venmo.</p>
           <div style="background:var(--gold-pale); border:1px solid var(--gold); border-radius:4px; padding:20px; margin:24px 0;">
             <div style="font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:6px;">Amount due</div>
-            <div id="payment-total" style="font-family:'Cormorant Garamond',serif; font-size:2.4rem; font-weight:500; color:var(--near-black);"></div>
+            <div id="payment-total" style="font-family:'Cormorant Garamond', serif; font-size:2.4rem; font-weight:500; color:var(--near-black);"></div>
             <div id="payment-breakdown" style="font-size:0.85rem; color:var(--muted); margin-top:4px;"></div>
           </div>
           <a href="https://venmo.com/u/Talia-Abrahamson" target="_blank" style="display:block; background:var(--gold); color:var(--near-black); text-decoration:none; border-radius:4px; padding:15px 28px; font-family:'Montserrat',sans-serif; font-size:0.8rem; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:16px;">Pay on Venmo</a>
@@ -489,11 +489,13 @@ footer {
 
   <!-- WAITLIST FORM (hidden until spots are full) -->
   <div id="waitlist-section" style="display:none;">
-    <div class="card" style="text-align:center; border-color:var(--gold);">
-      <div style="font-size:2rem; margin-bottom:12px;">✦</div>
-      <h2 style="margin-bottom:8px;">This event is fully booked</h2>
-      <p style="color:var(--muted);">All 30 spots have been filled. Enter your details below to join the waitlist — we'll reach out if a spot opens up.</p>
+    <div class="card" style="text-align:center; border-color:var(--gold); padding: 3rem 2rem;">
+      <div class="ornament" style="color:var(--gold); font-size:14px; letter-spacing:12px; margin-bottom:20px;">— ✦ —</div>
+      <h2 style="font-family:'Cormorant Garamond', serif; font-size:1.8rem; font-weight:500; margin:0 0 12px;">This event is fully booked</h2>
+      <div class="gold-rule" style="margin: 16px auto;"></div>
+      <p style="color:var(--muted); max-width:480px; margin:0 auto; font-size:0.95rem; line-height:1.8;">All 30 spots have been filled. Enter your details below to join the waitlist — we'll reach out if a spot becomes available.</p>
     </div>
+
     <div class="card">
       <h2>Join the waitlist</h2>
       <div class="field-row">
@@ -510,15 +512,19 @@ footer {
       <input type="email" id="wl-email" placeholder="you@example.com">
       <label class="field-label" for="wl-notes">Any notes</label>
       <textarea id="wl-notes" rows="3" placeholder="Number of people, dietary needs, anything else..."></textarea>
+      <p class="small-note">If a spot opens up, a Beyond Celiac Ambassador will be in touch at the email you provided to confirm your reservation and share next steps.</p>
       <div class="error-msg" id="wl-error-msg"></div>
-      <button type="button" onclick="submitWaitlist()" style="width:100%; padding:15px; background:var(--gold); color:var(--near-black); border:none; border-radius:4px; font-size:0.8rem; font-weight:500; cursor:pointer; font-family:'Montserrat',sans-serif; letter-spacing:0.15em; text-transform:uppercase;">Join the waitlist</button>
-      <div id="wl-success" style="display:none; margin-top:20px; text-align:center; padding:1.5rem; background:var(--gold-pale); border:1px solid var(--gold); border-radius:4px;">
-        <strong>You're on the waitlist!</strong><br>
-        <span style="font-size:0.9rem; color:var(--muted);">We'll contact you at <span id="wl-confirmed-email"></span> if a spot opens up.</span>
+      <button type="button" onclick="submitWaitlist()" style="width:100%; padding:15px; background:var(--gold); color:var(--near-black); border:none; border-radius:4px; font-size:0.8rem; font-weight:500; cursor:pointer; font-family:'Montserrat',sans-serif; letter-spacing:0.15em; text-transform:uppercase; transition: background 0.2s;">Join the waitlist</button>
+
+      <div id="wl-success" style="display:none; margin-top:24px; text-align:center; padding:2rem; background:var(--gold-pale); border:1px solid var(--gold); border-radius:4px;">
+        <div style="width:48px; height:48px; border-radius:50%; background:white; border:1px solid var(--gold); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem;">
+          <svg viewBox="0 0 24 24" style="width:22px; height:22px; stroke:var(--gold); fill:none; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3 style="font-family:'Cormorant Garamond', serif; font-size:1.4rem; font-weight:500; margin:0 0 8px; color:var(--near-black);">You're on the waitlist</h3>
+        <p style="font-size:0.88rem; color:var(--muted); margin:0;">We'll be in touch at <strong id="wl-confirmed-email" style="color:var(--near-black);"></strong> if a spot opens up.</p>
       </div>
     </div>
   </div>
-
 
 </div>
 
