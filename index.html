@@ -481,6 +481,9 @@ footer {
           </div>
           <a href="https://venmo.com/u/Talia-Abrahamson" target="_blank" style="display:block; background:var(--gold); color:var(--near-black); text-decoration:none; border-radius:4px; padding:15px 28px; font-family:'Montserrat',sans-serif; font-size:0.8rem; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:16px;">Pay on Venmo</a>
           <p style="font-size:0.8rem; color:var(--muted); margin:0;">Please include your name in the Venmo note so we can match your payment to your RSVP. Your spot is not confirmed until payment is received.</p>
+          <div id="venmo-thanks" style="display:none; margin-top:20px; padding:16px; background:var(--gold-pale); border:1px solid var(--gold); border-radius:4px; text-align:center;">
+  <p style="margin:0; font-size:0.9rem; color:var(--near-black);">Thank you! You will receive an email shortly with a confirmation of your spot.</p>
+</div>
         </div>
       </div>
 
@@ -783,7 +786,9 @@ document.getElementById('rsvp-form').addEventListener('submit', function(e) {
   successBox.style.display = 'block';
   successBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
-
+function showVenmoThanks() {
+  document.getElementById('venmo-thanks').style.display = 'block';
+}
 addGuest();
 checkCapacity();
 </script>
