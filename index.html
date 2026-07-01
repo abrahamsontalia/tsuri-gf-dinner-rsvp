@@ -427,7 +427,7 @@ footer {
     <p><strong>Location:</strong> Tsuri &bull; 7015 Melrose Ave, Los Angeles, CA 90038</p>
     <p><strong>Parking:</strong> Street parking widely available</p>
     <p><strong>Ticket price:</strong> $60 per person</p>
-    <p><strong>Availability:</strong> 30 spots</p>
+    <p><strong>Availability:</strong> Registration is now closed</p>
     <p style="margin-bottom:0;"><strong>Questions?</strong> Contact Tsuri at (323) 935-1517 if you have questions about ingredients or protocols. For other questions about this Beyond Celiac Los Angeles meet-up, reach out to <a href="https://instagram.com/celiacmeetupsla" target="_blank" style="color:var(--gold);">@celiacmeetupsla</a> on Instagram.</p>
   </div>
 
@@ -790,8 +790,10 @@ function showVenmoThanks() {
   document.getElementById('venmo-thanks').style.display = 'block';
 }
 
-addGuest();
-checkCapacity();
+document.getElementById('rsvp-form').style.display = 'none';
+document.getElementById('add-guest-btn-wrapper').style.display = 'none';
+document.getElementById('waitlist-section').style.display = 'none';
+document.querySelector('.container').insertAdjacentHTML('beforeend', '<div class="card" style="text-align:center; padding:3rem 2rem; border-color:var(--gold);"><div style="font-size:14px; letter-spacing:12px; color:var(--gold); margin-bottom:20px;">— ✦ —</div><h2 style="font-family:\'Cormorant Garamond\',serif; font-size:1.8rem; font-weight:500; margin:0 0 12px;">Registration is now closed</h2><p style="color:var(--muted); font-size:0.95rem; line-height:1.8; margin:0;">Thank you for your interest. We are no longer accepting RSVPs for this event.</p></div>');
 </script>
 </body>
 </html>
